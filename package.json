@@ -1,0 +1,19 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiiiiNNNNNNNNNyyyy/React-Todo-App.git"
+  },
+  "author": "Arjun Dass",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kiiiiNNNNNNNNNyyyy/React-Todo-App/issues"
+  },
+  "homepage": "https://github.com/kiiiiNNNNNNNNNyyyy/React-Todo-App#readme"
+}
