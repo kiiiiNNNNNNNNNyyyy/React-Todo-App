@@ -12,18 +12,12 @@ var TodoApp = React.createClass({
 
             showCompleted: false,
             searchText:'',  
-            todos: [
-                {
-                    id: uuid(),
-                    text: 'Walk the Dog',
-                    completed: false
-                },{
-                    id: uuid(),
-                    text: 'Clean the Room',
-                    completed: true
-                }
-            ]
-        }  
+            todos: TodoApi.getTodos()
+        };
+    },
+
+    componentDidUpdate: function(){
+        TodoApi.setTodos(this.state.todos);
     },
 
     handleAddTodo: function(text){  
