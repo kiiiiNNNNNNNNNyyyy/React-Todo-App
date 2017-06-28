@@ -49,4 +49,30 @@ describe('TodpoApi', () => {
             expect(actualTodos).toEqual(todos);
         });
     });
+
+    describe('filteredTodos', () => {
+        var todos = [{
+            id: 1,
+            text: "SomeText",
+            completed: true
+        },{
+            id: 2 ,
+            text: "Some thing",
+            completed: false
+        }, {
+            id: 3,
+            text: "SomeText",
+            completed: true
+        }];
+
+        it('should return all items if showCompleted is true', () => {
+            var filteredTodos = TodoApi.filterTodos(todos, true, '');
+            expect(filteredTodos.length).toBe(3);
+        });
+
+        it('should return uncompleted todo when showCompleted is false', () => {
+            var filteredTodos = TodoApi.filterTodos(todos, false, '');
+            expect(filteredTodos.length).toBe(1);
+        })
+    });
 });
