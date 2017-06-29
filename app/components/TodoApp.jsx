@@ -29,7 +29,8 @@ var TodoApp = React.createClass({
                     id: uuid(),
                     text: text,
                     completed: false,
-                    createdAt: moment().unix()
+                    createdAt: moment().unix(),
+                    completedAt: undefined
                 }
             ]
         });
@@ -40,6 +41,7 @@ var TodoApp = React.createClass({
             
             if(todo.id === id){
                 todo.completed = !todo.completed;
+                todo.completedAt = todo.completed ? moment().unix() : undefined;
             }
             return todo;
         });
