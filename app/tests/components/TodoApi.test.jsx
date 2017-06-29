@@ -53,15 +53,15 @@ describe('TodpoApi', () => {
     describe('filteredTodos', () => {
         var todos = [{
             id: 1,
-            text: "SomeText",
+            text: "Some Text",
             completed: true
         },{
             id: 2 ,
-            text: "Some thing",
+            text: "one thing",
             completed: false
         }, {
             id: 3,
-            text: "SomeText",
+            text: "Some Text",
             completed: true
         }];
 
@@ -78,6 +78,16 @@ describe('TodpoApi', () => {
         it('should sort by completed status', () => {
             var filteredTodos = TodoApi.filterTodos(todos, true, '');
             expect(filteredTodos[0].completed).toBe(false);
+        });
+
+        it('should filter todos by search text', () => {
+            var filteredTodos = TodoApi.filterTodos(todos, true, "some");
+            expect(filteredTodos.length).toBe(2);
+        });
+
+        it('should return all todos if search text is empty', () => {
+            var filteredTodos = TodoApi.filterTodos(todos, true, '');
+            expect(filteredTodos.length).toBe(3);
         });
     });
 });
