@@ -31,5 +31,27 @@ var action = {
 // createStore takes an arguement which need to be a pure function - reducer
 // A reducer takes your existing state and action as arguements and computes the new state
 
+var reducer = (state = {name: "Anonymous"}, action) => {
+    //state = state || {name: "Anonymous"};
+    return state;
+}
 
-var store = redux.createStore(); // store = one object that represents our entire application
+var store = redux.createStore(reducer); // store = one object that represents our entire application
+
+// getting the current state which has been changed by the reducer
+var currentState = store.getState();    
+
+// Creating a todo aplication with redux
+
+var defaultState = {
+    searchText: '',
+    showCompleted: false,
+    todos: []
+};
+
+var reducer = (state = defaultState, action) => {
+    return state;
+};
+
+var store = redux.createStore(reducer);
+console.log('currentState', currentState);
