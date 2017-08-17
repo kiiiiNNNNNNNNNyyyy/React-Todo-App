@@ -1,3 +1,4 @@
+var redux = require('redux');
 // There are two important thing in redux. 1 - An object that maintains the state. 2 - An Action to change that state
 var reduxState = {
     searchText : 'Dog',
@@ -25,3 +26,10 @@ var action = {
     type: 'CHANGE_SEARCH_TEXT',
     searchText: 'Something Else'
 }
+
+// Getting started
+// createStore takes an arguement which need to be a pure function - reducer
+// A reducer takes your existing state and action as arguements and computes the new state
+
+
+var store = redux.createStore(); // store = one object that represents our entire application
