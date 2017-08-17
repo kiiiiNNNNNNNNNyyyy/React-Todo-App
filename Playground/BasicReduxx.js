@@ -33,13 +33,22 @@ var action = {
 
 var reducer = (state = {name: "Anonymous"}, action) => {
     //state = state || {name: "Anonymous"};
-    return state;
+    switch(action.type){
+        case 'CHANGE_NAME': 
+            return {
+                ...state,
+                name: action.name
+            };
+        default:
+            return state;
+    }
 }
 
 var store = redux.createStore(reducer); // store = one object that represents our entire application
 
 // getting the current state which has been changed by the reducer
-var currentState = store.getState();    
+var currentState = store.getState();   
+console.log('currentState', currentState); 
 
 // Creating a todo aplication with redux
 
@@ -50,8 +59,22 @@ var defaultState = {
 };
 
 var reducer = (state = defaultState, action) => {
-    return state;
+    // using the action to change the state
+    switch(action.type){
+        case 'CHANGE_SEARCH_TEXT': 
+            return {
+                ...state,
+                searchText: action.searchText
+            };
+        default:
+            return state;
+    }
 };
 
 var store = redux.createStore(reducer);
-console.log('currentState', currentState);
+
+// dispatching the action
+store.dispatch({
+    type: "CHANGE_SEARCH_TEXT",
+    searchText: "work"
+}); // the arguments is an action
