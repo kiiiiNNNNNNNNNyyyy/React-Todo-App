@@ -8,6 +8,18 @@ var reduxState = {
     }]
 };
 
+
+// Pure Functions
+
+// Its always gonna return the same result, given the same input
+// It doesn't even change any outside variable
+function add(a, b){
+    return a + b;
+}
+
+// In redux, pure funcions cannot have async request, which means no callbacks or Promises.
+// Pure functions wlill also not change the value of the arguements
+
 // This is just an action in redux, nothing more
 var action = {
     type: 'CHANGE_SEARCH_TEXT',
