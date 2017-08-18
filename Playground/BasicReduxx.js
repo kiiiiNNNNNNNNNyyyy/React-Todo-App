@@ -70,6 +70,18 @@ var reducer = (state = {name: stateDefault}, action) => {
                     }
                 ]
             };
+        case 'REMOVE_HOBBY':
+            return {
+                ...state,
+                hobbies: state.hobbies.filter((hobby) => {
+                    return hobby.id !== action.id
+                })
+            }
+        case 'REMOVE_MOVIE':
+            return {
+                ...state,
+                movies: state.movies.filter((movie) => { return movie.id !== action.id })
+            }
         default:
             return state;
     }
@@ -94,14 +106,35 @@ store.dispatch({
 
 store.dispatch({
     type: 'ADD_HOBBY',
-    hobby: 'RUnning'
+    hobby: 'Running'
 });
 
+store.dispatch({
+    type: 'ADD_HOBBY',
+    hobby: 'Walking'
+});
+
+
+store.dispatch({
+    type: 'REMOVE_HOBBY',
+    id: 2
+});
 
 store.dispatch({
     type: 'ADD_MOVIE',
     title: 'MAD MAX',
     genre: 'Action'
+});
+
+store.dispatch({
+    type: 'ADD_MOVIE',
+    title: 'Matrix',
+    genre: 'Action'
+});
+
+store.dispatch({
+    type: 'REMOVE_MOVIE',
+    id: 2
 });
 
 unsubscribe(); // we will not get the second message as we have unsubscribed
