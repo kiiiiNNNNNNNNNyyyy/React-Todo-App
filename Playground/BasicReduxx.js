@@ -40,7 +40,7 @@ var stateDefault = {
 var nextHobbyId = 1;
 var nextMovieId = 1;
 
-var reducer = (state = {name: stateDefault}, action) => {
+var OldReducer = (state = {name: stateDefault}, action) => {
     //state = state || {name: "Anonymous"};
     switch(action.type){
         case 'CHANGE_NAME': 
@@ -86,6 +86,58 @@ var reducer = (state = {name: stateDefault}, action) => {
             return state;
     }
 }
+
+var nameReducer = (state = 'Anonymous', action) => {
+    switch(action.type){
+
+        case 'CHANGE_NAME':
+             return action.name;
+        default: 
+            return state;    
+    }
+}
+
+var hobbiesReducer = (state = [], action) => {
+    switch(action.type){
+        case 'ADD_HOBBY':
+        return [
+            ...state,
+            {
+                id: nextHobbyId++,
+                hobby: action.hobby
+            }
+        ];
+        case 'REMOVE_HOBBY':
+            return state.hobbies.filter((hobby) => hobby.id !== action.id)
+        default:
+            return state;
+    }   
+}; 
+
+var moviesReducer = (state = [], action){
+    switch(action.type){
+        case 'ADD_MOVIE':
+            return [
+                ...state,
+                {
+                    id: nextMovieId++,
+                    title: action.title,
+                    genre: action.genre 
+                }
+
+            ];
+        case 'REMOVE_MOVIE':
+            return state.movies.filter((movie) => { return movie.id !== action.id });
+        default:
+            return state;
+    }
+}
+
+var reducer = redux.combineReducers({
+    name: nameReducer,
+    hobbies: hobbiesReducer,
+    movies: moviesReducer
+});
 
 var store = redux.createStore(reducer, redux.compose(
     window.devToolsExtension ? window.devToolsExtension() : f => {  return f; } // for using developer tools
