@@ -40,52 +40,52 @@ var stateDefault = {
 var nextHobbyId = 1;
 var nextMovieId = 1;
 
-var OldReducer = (state = {name: stateDefault}, action) => {
-    //state = state || {name: "Anonymous"};
-    switch(action.type){
-        case 'CHANGE_NAME': 
-            return {
-                ...state,
-                name: action.name
-            };
-        case 'ADD_HOBBY':
-            return {
-                ...state,
-                hobbies: [
-                    ...state.hobbies,
-                    {
-                        id: nextHobbyId++,
-                        hobby: action.hobby
-                    }
-                ]
-            };
-        case 'ADD_MOVIE': 
-            return {
-                movies: [
-                    ...state.movies,
-                    {
-                        id: nextMovieId++,
-                        title: action.title,
-                        genre: action.genre 
-                    }
-                ]
-            };
-        case 'REMOVE_HOBBY':
-            return {
-                ...state,
-                hobbies: state.hobbies.filter((hobby) => {
-                    return hobby.id !== action.id
-                })
-            }
-        case 'REMOVE_MOVIE':
-            return {
-                ...state,
-                movies: state.movies.filter((movie) => { return movie.id !== action.id })
-            }
-        default:
-            return state;
-    }
-}
+// var OldReducer = (state = {name: stateDefault}, action) => {
+//     //state = state || {name: "Anonymous"};
+//     switch(action.type){
+//         case 'CHANGE_NAME': 
+//             return {
+//                 ...state,
+//                 name: action.name
+//             };
+//         case 'ADD_HOBBY':
+//             return {
+//                 ...state,
+//                 hobbies: [
+//                     ...state.hobbies,
+//                     {
+//                         id: nextHobbyId++,
+//                         hobby: action.hobby
+//                     }
+//                 ]
+//             };
+//         case 'ADD_MOVIE': 
+//             return {
+//                 movies: [
+//                     ...state.movies,
+//                     {
+//                         id: nextMovieId++,
+//                         title: action.title,
+//                         genre: action.genre 
+//                     }
+//                 ]
+//             };
+//         case 'REMOVE_HOBBY':
+//             return {
+//                 ...state,
+//                 hobbies: state.hobbies.filter((hobby) => {
+//                     return hobby.id !== action.id
+//                 })
+//             }
+//         case 'REMOVE_MOVIE':
+//             return {
+//                 ...state,
+//                 movies: state.movies.filter((movie) => { return movie.id !== action.id })
+//             }
+//         default:
+//             return state;
+//     }
+// }
 
 var nameReducer = (state = 'Anonymous', action) => {
     switch(action.type){
@@ -96,6 +96,44 @@ var nameReducer = (state = 'Anonymous', action) => {
             return state;    
     }
 }
+
+
+//action generators
+var changeName = (name) => {
+    return {
+        type: 'CHANGE_NAME',
+        name: name
+    }
+};
+
+var addHobby = (hobby) => {
+    return {
+        type: 'ADD_HOBBY',
+        hobby: hobby
+    }
+};
+
+var removeHobby = (id) => {
+    return {
+        type: 'REMOVE_HOBBY',
+        id: id
+    }
+};
+
+var addMovie = (title, genre) => {
+    return {
+        type: 'ADD_MOVIE',
+        title: title,
+        genre: genre
+    }
+};
+
+var removeMovie = (id) => {
+    return {
+        type: 'REMOVE_MOVIE',
+        id: id
+    }
+};
 
 var hobbiesReducer = (state = [], action) => {
     switch(action.type){
@@ -151,50 +189,24 @@ var unsubscribe = store.subscribe(() => {
     console.log('New State ', store.getState());
 });
 
-store.dispatch({
-    type: "CHANGE_NAME",
-    name: "EMILY"
-});
+store.dispatch(changeName('EMILY'));
 
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Running'
-});
+store.dispatch(changeName('ANDREW'));
 
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Walking'
-});
+store.dispatch(addHobby("Running"));
 
+store.dispatch(addHobby("Walking"));
 
-store.dispatch({
-    type: 'REMOVE_HOBBY',
-    id: 2
-});
+store.dispatch(removeHobby(2));
 
-store.dispatch({
-    type: 'ADD_MOVIE',
-    title: 'MAD MAX',
-    genre: 'Action'
-});
+store.dispatch(addMovie("Mad Max", "Action"));
 
-store.dispatch({
-    type: 'ADD_MOVIE',
-    title: 'Matrix',
-    genre: 'Action'
-});
+store.dispatch("Matrix", "Action");
 
-store.dispatch({
-    type: 'REMOVE_MOVIE',
-    id: 2
-});
+store.dispatch(removeMovie(2));
 
 unsubscribe(); // we will not get the second message as we have unsubscribed
 
-store.dispatch({
-    type: "CHANGE_NAME",
-    name: "Andrew"
-});
 // getting the current state which has been changed by the reducer
 var currentState = store.getState();   
 console.log('currentState', currentState); 
