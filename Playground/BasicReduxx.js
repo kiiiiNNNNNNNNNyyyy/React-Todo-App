@@ -31,13 +31,44 @@ var action = {
 // createStore takes an arguement which need to be a pure function - reducer
 // A reducer takes your existing state and action as arguements and computes the new state
 
-var reducer = (state = {name: "Anonymous"}, action) => {
+var stateDefault = {
+    name: 'Anonymous',
+    hobbies: [],
+    movies: []
+}
+
+var nextHobbyId = 1;
+var nextMovieId = 1;
+
+var reducer = (state = {name: stateDefault}, action) => {
     //state = state || {name: "Anonymous"};
     switch(action.type){
         case 'CHANGE_NAME': 
             return {
                 ...state,
                 name: action.name
+            };
+        case 'ADD_HOBBY':
+            return {
+                ...state,
+                hobbies: [
+                    ...state.hobbies,
+                    {
+                        id: nextHobbyId++,
+                        hobby: action.hobby
+                    }
+                ]
+            };
+        case 'ADD_MOVIE': 
+            return {
+                movies: [
+                    ...state.movies,
+                    {
+                        id: nextMovieId++,
+                        title: action.title,
+                        genre: action.genre 
+                    }
+                ]
             };
         default:
             return state;
@@ -51,12 +82,26 @@ var store = redux.createStore(reducer, redux.compose(
 // you can unsubscribe by calling this method
 var unsubscribe = store.subscribe(() => {
     var state = store.getState();
+    document.getElementById('app').innerHTML = state.name;
     console.log("Name is " + state.name);
+    console.log('New State ', store.getState());
 });
 
 store.dispatch({
     type: "CHANGE_NAME",
     name: "EMILY"
+});
+
+store.dispatch({
+    type: 'ADD_HOBBY',
+    hobby: 'RUnning'
+});
+
+
+store.dispatch({
+    type: 'ADD_MOVIE',
+    title: 'MAD MAX',
+    genre: 'Action'
 });
 
 unsubscribe(); // we will not get the second message as we have unsubscribed
