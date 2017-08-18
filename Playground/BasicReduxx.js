@@ -44,8 +44,27 @@ var reducer = (state = {name: "Anonymous"}, action) => {
     }
 }
 
-var store = redux.createStore(reducer); // store = one object that represents our entire application
+var store = redux.createStore(reducer, redux.compose(
+    window.devToolsExtension ? window.devToolsExtension() : f => {  return f; } // for using developer tools
+)); // store = one object that represents our entire application
 
+// you can unsubscribe by calling this method
+var unsubscribe = store.subscribe(() => {
+    var state = store.getState();
+    console.log("Name is " + state.name);
+});
+
+store.dispatch({
+    type: "CHANGE_NAME",
+    name: "EMILY"
+});
+
+unsubscribe(); // we will not get the second message as we have unsubscribed
+
+store.dispatch({
+    type: "CHANGE_NAME",
+    name: "Andrew"
+});
 // getting the current state which has been changed by the reducer
 var currentState = store.getState();   
 console.log('currentState', currentState); 
@@ -71,10 +90,24 @@ var reducer = (state = defaultState, action) => {
     }
 };
 
-var store = redux.createStore(reducer);
 
+// An inbuilt debugger provided by redux
+var store = redux.createStore(reducer, redux.compose(
+    window.devToolsExtension ? window.devToolsExtension : f => f
+ ));
+
+// subscribing to the changes
+store.subscribe(() => {
+    var state = store.getState();
+    document.getElementById('app').innerHTML = search.searchText; 
+});
 // dispatching the action
 store.dispatch({
     type: "CHANGE_SEARCH_TEXT",
     searchText: "work"
 }); // the arguments is an action
+
+store.dispatch({
+    type: "CHANGE_SEARCH_TEXT",
+    searchText: "Dog"
+});
