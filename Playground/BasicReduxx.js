@@ -1,4 +1,5 @@
 var redux = require('redux');
+var axios = require('axios');
 // There are two important thing in redux. 1 - An object that maintains the state. 2 - An Action to change that state
 var reduxState = {
     searchText : 'Dog',
@@ -87,17 +88,6 @@ var nextMovieId = 1;
 //     }
 // }
 
-var nameReducer = (state = 'Anonymous', action) => {
-    switch(action.type){
-
-        case 'CHANGE_NAME':
-             return action.name;
-        default: 
-            return state;    
-    }
-}
-
-
 //action generators
 var changeName = (name) => {
     return {
@@ -135,6 +125,48 @@ var removeMovie = (id) => {
     }
 };
 
+var startLocationFetch = () => {
+    return {
+        type: 'START_LOCATION_FETCH'
+    }
+};
+
+var completeLocationFetch = (url) => {
+    return {
+        type: 'COMPLETE_LOCATION_FETCH',
+        url: url
+    };
+}; 
+
+var fetchLocation = () => {
+    store.dispatch(startLocationFetch());
+
+    axios.get('http://ipinfo.io').then((response) => {
+        var loc = response.data.loc;
+        var baseUrl = 'http://maps.google.com?q=';
+        store.dispatch(completeLocationFetch(baseUrl + loc));
+    });
+} 
+
+var reducer = redux.combineReducers({
+    name: nameReducer,
+    hobbies: hobbiesReducer,
+    movies: moviesReducer,
+    map: mapReducer
+});
+
+
+// Reducers
+var nameReducer = (state = 'Anonymous', action) => {
+    switch(action.type){
+
+        case 'CHANGE_NAME':
+             return action.name;
+        default: 
+            return state;    
+    }
+}
+
 var hobbiesReducer = (state = [], action) => {
     switch(action.type){
         case 'ADD_HOBBY':
@@ -171,12 +203,24 @@ var moviesReducer = (state = [], action){
     }
 }
 
-var reducer = redux.combineReducers({
-    name: nameReducer,
-    hobbies: hobbiesReducer,
-    movies: moviesReducer
-});
-
+// Asynchronus actions
+var mapReducer = (state = { isFetching: false, url: undefined}, action) => {
+    switch(action.type){
+        case 'START_LOCATION_FETCH':
+            return {
+                isFetching: true,
+                url: undefined
+            };
+        case 'COMPLETE_LOCATION_FECTH':
+            return {
+                isFetching: false,
+                url: action.url
+            };
+        default:
+             return state;
+    }
+}
+    
 var store = redux.createStore(reducer, redux.compose(
     window.devToolsExtension ? window.devToolsExtension() : f => {  return f; } // for using developer tools
 )); // store = one object that represents our entire application
@@ -184,11 +228,16 @@ var store = redux.createStore(reducer, redux.compose(
 // you can unsubscribe by calling this method
 var unsubscribe = store.subscribe(() => {
     var state = store.getState();
-    document.getElementById('app').innerHTML = state.name;
-    console.log("Name is " + state.name);
     console.log('New State ', store.getState());
+
+    if(state.map.isFetching){
+        document.getElementById('app').innerHTML = 'Loading...';
+    }else if(state.map.url){
+        document.getElementById('app').innerHTML = '<a targer="_blank" href="' + state.map.url + '">View your location</a>';
+    }
 });
 
+fetchLocation();
 store.dispatch(changeName('EMILY'));
 
 store.dispatch(changeName('ANDREW'));
