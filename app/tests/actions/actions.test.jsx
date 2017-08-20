@@ -12,4 +12,36 @@ describe('Actions', () => {
 
         expect(res).toEqual(action);
     });
+
+    it('should generate add todo action', () => {
+        var action = {
+            type: 'ADD_TODO',
+            text: 'Thing to do'
+        }
+        
+        var res = actions.addTodo(action.text);
+
+        expect(res).toEqual(action);
+    });
+
+    it('Should toggle when  todo completed', () => {
+        var action = {
+            type: 'TOGGLE_SHOW_COMPLETED'
+        };
+
+        var res = actions.toggleShowCompleted();
+
+        expect(res).toEqual(action);
+    });
+
+    it('Should toggle todos', () => {
+        var action = {
+            type: 'TOGGLE_TODO',
+            id: '123'
+        };
+
+        var res = actions.toggleTodos(action.id);
+
+        expect(res).toEqual(action);
+    });
 })
