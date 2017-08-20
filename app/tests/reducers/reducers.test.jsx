@@ -2,7 +2,7 @@ var expect = require('expect');
 var reducers = require('reducers');
 var df = require('deep-freeze-strict');
 //df freeze library makes sure that the functions we are using as reducers are pure functions in redux
-
+//commit to test travis ci
 describe('Reducers', () => {
 
     describe('searchTextReducers', () => {
