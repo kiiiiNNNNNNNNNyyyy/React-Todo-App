@@ -24,17 +24,24 @@ firebaseRef.set({
 		name: 'Andrew',
 		age: 25
 	}
-}).then(() => {
-	console.log("Worked!!");
-}, (err) => {
-	console.log("Error");
 });
 
-// use child properrty to update only one attribute
-firebaseRef.child('user').set({
-	name: 'Mike'
+//update only updates the provided attribute for the nested object  
+// Update also comes with a promise
+
+firebaseRef.update({
+	'app/name': 'Todo Application',
+	'user/name': 'Jen'   
 });
 
-firebaseRef.child('app').set({
-	name: 'Todo App'
-});
+firebaseRef.child('app').update({ name: 'TodoApplciation' });
+firebaseRef.child('user').update({name: 'Mike'});
+
+// firebaseRef.update({
+// 	isRunning: false,
+// 	'app/name': 'Todo Application'
+// });
+
+// firebaseRef.child('app').update({
+// 	name: 'Todo Application'
+// });
