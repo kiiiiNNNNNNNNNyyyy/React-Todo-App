@@ -10,6 +10,31 @@ var config = {
 };
 firebase.initializeApp(config);
 
-firebase.database().ref().set({
-	appName: 'Todo App'
+var firebaseRef = firebase.database().ref();
+
+// set completely wipes data at the current reference
+// IMPORTANT  - Set function also returns a promise, so it can be used in .then
+firebaseRef.set({
+	isRunning: true,
+	app: {
+		name: "Todo App",
+		version: '1.0.0'
+	},
+	user: {
+		name: 'Andrew',
+		age: 25
+	}
+}).then(() => {
+	console.log("Worked!!");
+}, (err) => {
+	console.log("Error");
+});
+
+// use child properrty to update only one attribute
+firebaseRef.child('user').set({
+	name: 'Mike'
+});
+
+firebaseRef.child('app').set({
+	name: 'Todo App'
 });
