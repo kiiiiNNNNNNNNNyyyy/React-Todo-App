@@ -30,8 +30,29 @@ firebaseRef.set({
 //firebaseRef.child('app/name	').remove();
 // Another way of removing the data is by setting the data null
 firebaseRef.child('app').update({
-	version: '2.00',
-	name: null
+	version: '2.00'
+});
+
+// Arrays
+var notesRef = firebaseRef.child('notes');
+
+var newNoteRef = notesRef.push();
+newNoteRef.set({
+	text: 'Walk the dog!'
+});
+
+//can also be written as 
+var newNoteRef = notesRef.push({text: 'Walk the dog!'});
+notesRef.on('child_added', (snapshot) => {
+	console.log('child_Added', snapshot.key, snapshot.val());
+});
+
+notesRef.on('child_removed', (snapshot) => {
+	console.log('child_removed', snapshot.key, snapshot.val());
+});
+
+notesRef.on('child_changed', (snapshot) => {
+	console.log('child_changed', snapshot.key, snapshot.val());
 });
 
 //update only updates the provided attribute for the nested object  
