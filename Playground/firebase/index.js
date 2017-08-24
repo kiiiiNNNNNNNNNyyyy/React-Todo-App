@@ -26,16 +26,24 @@ firebaseRef.set({
 	}
 });
 
+// one way of removing the data
+//firebaseRef.child('app/name	').remove();
+// Another way of removing the data is by setting the data null
+firebaseRef.child('app').update({
+	version: '2.00',
+	name: null
+});
+
 //update only updates the provided attribute for the nested object  
 // Update also comes with a promise
 
-firebaseRef.update({
-	'app/name': 'Todo Application',
-	'user/name': 'Jen'   
-});
+// firebaseRef.update({
+// 	'app/name': 'Todo Application',
+// 	'user/name': 'Jen'   
+// });
 
-firebaseRef.child('app').update({ name: 'TodoApplciation' });
-firebaseRef.child('user').update({name: 'Mike'});
+// firebaseRef.child('app').update({ name: 'TodoApplciation' });
+// firebaseRef.child('user').update({name: 'Mike'});
 
 // firebaseRef.update({
 // 	isRunning: false,
