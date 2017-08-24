@@ -9,7 +9,7 @@ var actions = require('actions');
 var store = require('configureStore').configure();
 var TodoApi = require('TodoApi');
 
-import './../playground/firebase/index';
+import './../Playground/firebase/index';
 
 store.subscribe(() => {
 	var state = store.getState();
