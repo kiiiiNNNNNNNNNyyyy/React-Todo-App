@@ -4,11 +4,11 @@
   "description": "Simple react app",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test karma start",
+    "test": "karma start",
     "build": "webpack",
     "start": "npm run build && node --harmony server.js"
   },
-  "author": "Andrew Mead",
+  "author": "Arjun Dass",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.9.1",
