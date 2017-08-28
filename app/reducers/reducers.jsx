@@ -31,7 +31,7 @@ export var todosReducer = (state = [], action) => {
 			if (todo.id === action.id) {
 				return {
 					...todo,
-					...action.updates
+					...action	.updates
 				}
 			} else {
 				return todo;
@@ -46,3 +46,16 @@ export var todosReducer = (state = [], action) => {
 		    return state;
 	}
 };
+
+export var authReducer = (state = {}, action) => {
+	switch(action.type){
+		case 'LOGIN':
+			return {
+				uid: action.uid
+			}
+		case 'LOGOUT': 
+			return {};
+		default: 
+			return state;
+	}
+}
